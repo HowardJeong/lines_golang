@@ -89,3 +89,30 @@ const (
 	Subtract
 	Multiply
 )
+
+// Test_ZeroMutex
+// 뮤텍스의 경우, 제로값의 sync.Mutex, sync.RWMutex은 유효하다. 거의 대부분의 경우에 포인터 Mutex는 필요하지 않다. 
+func Test_ZeroMutex(t *testing.T) {
+	sMap := NewSMap()
+	
+	fmt.Println(sMap.Get("Sample")
+}
+
+type SMap struct {
+  mu sync.Mutex
+
+  data map[string]string
+}
+
+func NewSMap() *SMap {
+  return &SMap{
+    data: make(map[string]string),
+  }
+}
+
+func (m *SMap) Get(k string) string {
+  m.mu.Lock()
+  defer m.mu.Unlock()
+
+  return m.data[k]
+}
